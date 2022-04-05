@@ -1,5 +1,5 @@
 class PlantsController < ApplicationController
-
+# rescue_from ActiveRecord::RecordNotFound, with: :not_found_response
   # GET /plants
   def index
     plants = Plant.all
@@ -16,6 +16,17 @@ class PlantsController < ApplicationController
   def create
     plant = Plant.create(plant_params)
     render json: plant, status: :created
+  end
+
+  def update
+    plant = Plant.find_by(id: params[:id])
+    plant.update(plant_params)
+    render json: plant
+  end
+
+  def destroy
+    plant = Plant.find_by(id: params[:id])
+    plant.destroy
   end
 
   private
